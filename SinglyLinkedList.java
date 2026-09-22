@@ -103,21 +103,22 @@ public class SinglyLinkedList<E extends Comparable<E>> {
     public void swap() {
         int size = size();
         
-        // store all the nodes in a map
-        HashMap<Integer, Node<E>> map = new HashMap<>();
+        // store all the values of the nodes in a map<element, position>
+        HashMap<E, Integer> map = new HashMap<>();
 
-        ArrayList<E> orderList = new ArrayList();
+        // stores all the nodes where the swap is happening
+        ArrayList<Node<E>> nodeList = new ArrayList();
         ArrayList<E> sortedList = new ArrayList<>();
-        // int sortedList[] = new int[size];
+
         int indx = 0;
 
         Node curr = this.head;
         while (curr != null) {
             E element = (E) curr.getElement();
-            map.put(indx++, curr);
+            map.put(element, indx++);
             sortedList.add(element);
-            orderList.add(element);
-            // sortedList[indx++] = (Integer) curr.getElement();
+            nodeList.add(curr);
+            
             curr = curr.getNext();
         }
 
@@ -129,44 +130,29 @@ public class SinglyLinkedList<E extends Comparable<E>> {
         while (left < right) {
             E min = sortedList.get(left);
             E max = sortedList.get(right);
+           
+            int pos1 = map.get(min);
+            int pos2 = map.get(max);
 
-            int indx1 = 0;
-            int indx2 = 0;
-            while (orderList.get(indx1) != min) {
-                indx1++;
-            }
-
-            while (orderList.get(indx2) != max) {
-                indx2++;
-            }
-
-            E temp = orderList.get(indx1);
-            orderList.set(indx1, orderList.get(indx2));
-            orderList.set(indx2, temp);
-            
-            Node tempNode = map.get(indx1);
-            map.put(indx1, map.get(indx2));
-            map.put(indx2, tempNode);
+            Node<E> tempNode = nodeList.get(pos1);
+            nodeList.set(pos1, nodeList.get(pos2));
+            nodeList.set(pos2, tempNode);
 
             left++;
             right--;
         }
 
         indx = 0;
-        head = map.get(0);
-        Node ptr = head;
+        head = nodeList.get(0);
+        Node<E> ptr = head;
         for (int i = 1; i < size(); i++) {
-            ptr.setNext(map.get(i));
+            ptr.setNext(nodeList.get(i));
             ptr = ptr.getNext();
         }
 
         tail = ptr;
         tail.setNext(null);
         ptr = head;
-        
-        // for (E i : orderList) {
-        //     System.out.println(i);
-        // }
     }
 
     public static void bubbleSort(int[] arr) {
