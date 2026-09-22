@@ -100,19 +100,18 @@ public class SinglyLinkedList<E extends Comparable<E>> {
     }
 
     // write your codes here
-    public void swap() {
-        int size = size();
-        
+    public void swap() {   
+        int size = size();     
         // store all the values of the nodes in a map<element, position>
         HashMap<E, Integer> map = new HashMap<>();
 
         // stores all the nodes where the swap is happening
-        ArrayList<Node<E>> nodeList = new ArrayList();
+        ArrayList<Node<E>> nodeList = new ArrayList<>();
         ArrayList<E> sortedList = new ArrayList<>();
 
         int indx = 0;
 
-        Node curr = this.head;
+        Node<E> curr = this.head;
         while (curr != null) {
             E element = (E) curr.getElement();
             map.put(element, indx++);
@@ -125,7 +124,7 @@ public class SinglyLinkedList<E extends Comparable<E>> {
         // keep track of max and min
         Collections.sort(sortedList);
         int left = 0;
-        int right = size() - 1;
+        int right = size - 1;
         
         while (left < right) {
             E min = sortedList.get(left);
@@ -145,7 +144,7 @@ public class SinglyLinkedList<E extends Comparable<E>> {
         indx = 0;
         head = nodeList.get(0);
         Node<E> ptr = head;
-        for (int i = 1; i < size(); i++) {
+        for (int i = 1; i < size; i++) {
             ptr.setNext(nodeList.get(i));
             ptr = ptr.getNext();
         }
@@ -153,20 +152,5 @@ public class SinglyLinkedList<E extends Comparable<E>> {
         tail = ptr;
         tail.setNext(null);
         ptr = head;
-    }
-
-    public static void bubbleSort(int[] arr) {
-        int n = arr.length;
-
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    // Swap arr[j] and arr[j+1]
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
     }
 }
